@@ -1,0 +1,49 @@
+# nano /etc/dhcp/dhcpd.conf
+# nano /usr/share/doc/dhcp*/dhcpd.conf.sample
+# cp /usr/share/doc/dhcp*/dhcpd.conf.sample /etc/dhcp/dhcpd.conf
+
+# Si se tienen problemas con equipos con Windows Vista/7/8, omita el parámetro 
+# server-identifier. Esto aunque rompe con el protocolo DHCP, permite a los
+# clientes Windows Vista/7/8 poder comunicarse con el servidor DHCP y aceptar
+# la dirección IP proporcionada.
+# server-identifier 172.16.10.1;
+
+ddns-update-style interim;
+ignore client-updates;
+authoritative;
+default-lease-time 900;
+max-lease-time 7200;
+option ip-forwarding off;
+option domain-name "apellido.edu.pe";
+option ntp-servers 200.23.51.205, 132.248.81.29, 148.234.7.30;
+#option ntp-servers: otorgar el modelo de hora de sistema de un equipo y replicarlo en los clientes
+shared-network redlocal {
+	subnet 172.16.10.0 netmask 255.255.255.0 {
+		option routers 172.16.10.1;
+		option subnet-mask 255.255.255.0;
+		option broadcast-address 172.16.10.255;
+		option domain-name-servers 172.16.10.2;
+		option netbios-name-servers 172.16.10.2;
+		range 172.16.10.2 172.16.10.254;
+	}
+
+
+# Equipos con IP fija.
+	host pc1 {
+		option host-name " pc1.apellido.edu.pe ";
+		hardware ethernet 00:24:2B:65:54:84;
+		fixed-address 172.16.10.254;
+		}
+	host pc14 {
+		option host-name " pc14.apellido.edu.pe ";
+		hardware ethernet 00:50:BF:27:1C:1C;
+		fixed-address 172.16.10.60;
+		}
+
+
+}
+
+# service dhcpd start: Iniciar el servicio
+# service dhcpd restart: Reiniciar el servicio
+# service dhcpd stop: Detener el servicio
+#chkconfig dhcpd on: startup
