@@ -26,7 +26,7 @@ shared-network redlocal {
 		option netbios-name-servers 172.16.10.2;
 		range 172.16.10.2 172.16.10.254;
 	}
-
+}
 
 # Equipos con IP fija.
 	host pc1 {
@@ -41,7 +41,7 @@ shared-network redlocal {
 		}
 
 
-}
+
 
 # service dhcpd start: Iniciar el servicio
 # service dhcpd restart: Reiniciar el servicio
